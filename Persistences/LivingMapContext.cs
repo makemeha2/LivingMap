@@ -23,7 +23,6 @@ public class LivingMapContext : DbContext
             connectionString = r.ReadToEnd();
         }
 
-
         optionsBuilder.UseSqlServer(connectionString);
         optionsBuilder.EnableSensitiveDataLogging();
         optionsBuilder.LogTo(Console.WriteLine);

@@ -7,14 +7,12 @@ using System.Threading.Tasks;
 
 namespace DataRegister.ExtractService.Custom
 {
-    // [0] : 2
-    // [1] : 2017-11
-    // [2] : 동내면
-    // [3] : 강원도 춘천시 동내면 거두리 990-8 
-    // [4] : 강원도 춘천시 동내면 춘천순환로72번길 72
-    // [5] : 거두리 클린하우스
-    // [6] : 2022-11-28
-    internal class Chuncheonsi : IExtractService
+    //[0] : 75,
+    //[1] : 75-지,
+    //[2] : 지체장애인협회,
+    //[3] : 홍제1동,
+    //[4] : 홍제내2라길13
+    internal class Sudaemunku : IExtractService
     {
         public LocationInfo? Map(InterfaceTarget target, string[] item)
         {
@@ -26,15 +24,11 @@ namespace DataRegister.ExtractService.Custom
             rtnVal.Div = target.Div;
             rtnVal.Area1 = target.Area1;
             rtnVal.Area2 = target.Area2;
-            rtnVal.Area3 = item[2];
-            rtnVal.Address = item[4];
-            if (string.IsNullOrWhiteSpace(rtnVal.Address))
-            {
-                rtnVal.Address = item[3];
-            }
+            rtnVal.Area3 = item[3];
+            rtnVal.Address = $"{rtnVal.Area1} {rtnVal.Area2} {item[4]}";
             rtnVal.UseYN = true;
             rtnVal.RegistDate = DateOnly.FromDateTime(DateTime.Now);
-            
+
             CommonExtract.TreatmentItem(rtnVal);
 
             return CommonExtract.IsValidRow(rtnVal) ? rtnVal : null;

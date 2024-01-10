@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 
 namespace DataRegister.ExtractService.Custom
 {
+    //[0] : 낙성대동-20,
+    //[1] : 서울특별시 관악구 낙성대로3길 21-4
     internal class Kwanakku : IExtractService
     {
         public LocationInfo? Map(InterfaceTarget target, string[] item)
