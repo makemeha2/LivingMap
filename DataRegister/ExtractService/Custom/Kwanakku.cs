@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DataRegister.ExtractService.Custom
 {
-    internal class Chuncheonsi : IExtractService
+    internal class Kwanakku : IExtractService
     {
         public LocationInfo? Map(InterfaceTarget target, string[] item)
         {
@@ -16,15 +16,18 @@ namespace DataRegister.ExtractService.Custom
 
             LocationInfo rtnVal = new LocationInfo();
 
-            rtnVal.Div = target.Div;
+            rtnVal.Div = "DIV01";
             rtnVal.Area1 = target.Area1;
             rtnVal.Area2 = target.Area2;
-            rtnVal.Area3 = item[2];
-            rtnVal.Address = item[4];
-            if (string.IsNullOrWhiteSpace(rtnVal.Address))
+
+            string dong = item[0];
+            var idx = item[0].IndexOf('-');
+            if (idx > 0)
             {
-                rtnVal.Address = item[3];
+                dong = item[0].Substring(0, idx);
             }
+            rtnVal.Area3 = dong;
+            rtnVal.Address = item[1];
             rtnVal.UseYN = true;
             rtnVal.RegistDate = DateOnly.FromDateTime(DateTime.Now);
 

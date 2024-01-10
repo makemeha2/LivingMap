@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistences;
 
@@ -11,9 +12,11 @@ using Persistences;
 namespace Persistences.Migrations
 {
     [DbContext(typeof(LivingMapContext))]
-    partial class LivingMapContextModelSnapshot : ModelSnapshot
+    [Migration("20240109235114_setInterfaceTargetConfig")]
+    partial class setInterfaceTargetConfig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

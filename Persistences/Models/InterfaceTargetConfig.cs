@@ -14,7 +14,7 @@ namespace Persistences.Models
         [Key]
         public int TargetIdx { get; set; }
 
-        public ExtractType ExtractType { get; set; } = ExtractType.Auto;
+        public ExtractType ExtractType { get; set; } = ExtractType.None;
 
         public string ExtractFuncName { get; set; } = string.Empty;
 

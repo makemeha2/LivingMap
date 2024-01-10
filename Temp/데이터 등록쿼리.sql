@@ -20,3 +20,11 @@ INSERT [dbo].[InterfaceTarget] ([Idx], [Div], [Area1], [Area2], [FileName], [Fil
 GO
 SET IDENTITY_INSERT [dbo].[InterfaceTarget] OFF
 GO
+
+
+insert into InterfaceTargetConfig(TargetIdx, ExtractType, ExtractFuncName, Area1Index, Area2Index, Area3Index, AddressIndex, LatitudeIndex, LongitudeIndex) values
+	(1, 'Custom', 'DataRegister.ExtractService.Custom.Chuncheonsi', null, null, null, null, null, null),
+	(2, 'Custom', 'DataRegister.ExtractService.Custom.Kwanakku', null, null, null, null, null, null),
+	(3, 'Auto', '', null, null, 1, 2, null, null),
+	(4, 'Auto', '', null, null, 3, 4, null, null),
+	(5, 'None', '', null, null, null, null, null, null)

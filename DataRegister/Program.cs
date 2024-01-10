@@ -1,4 +1,5 @@
 ﻿using DataRegister;
+using Microsoft.EntityFrameworkCore;
 using Persistences;
 using Persistences.Models;
 using System.Text;
@@ -9,12 +10,14 @@ internal class Program
     {
         using (var context = new LivingMapContext())
         {
-            var interfaceTargets = context.InterfaceTargets.Where(target => !target.CompletedIf).ToList();
+            var interfaceTargets = context.InterfaceTargets.Where(target => !target.CompletedIf).Include(i => i.InterfaceTargetConfig).ToList();
             //IEnumerable<LocationInfo> addingList = new List<LocationInfo>();
             Dictionary<string, LocationInfo> addingList = new Dictionary<string, LocationInfo>();
 
             foreach (var target in interfaceTargets)
             {
+                if (string.IsNullOrEmpty(target.FilePath)) continue;
+
                 var fileInfo = new FileInfo(target.FilePath);
                 if (fileInfo.Exists)
                 {

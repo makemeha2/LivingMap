@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using Persistences.Models;
@@ -9,7 +10,7 @@ public class LivingMapContext : DbContext
 {
     public LivingMapContext()
     {
-
+        //Database.Log = sql => Debug.Write(sql);
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -25,6 +26,7 @@ public class LivingMapContext : DbContext
 
         optionsBuilder.UseSqlServer(connectionString);
         optionsBuilder.EnableSensitiveDataLogging();
+        optionsBuilder.LogTo(Console.WriteLine);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -34,6 +36,10 @@ public class LivingMapContext : DbContext
             .WithOne(e => e.InterfaceTarget)
             .HasForeignKey<InterfaceTargetConfig>(e => e.TargetIdx)
             .IsRequired();
+
+        modelBuilder.Entity<InterfaceTargetConfig>()
+            .Property(d => d.ExtractType)
+            .HasConversion(new EnumToStringConverter<ExtractType>());
     }
 
     public DbSet<LocationInfo> LocationInfos => Set<LocationInfo>();
