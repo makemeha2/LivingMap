@@ -7,7 +7,7 @@ internal class Program
 
     private static async Task Main(string[] args)
     {
-        args = ["coordinate"];
+        //args = ["coordinate"];
 
         if (args != null && args.Length > 0)
         {
