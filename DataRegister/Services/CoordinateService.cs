@@ -52,6 +52,9 @@ namespace DataRegister.Services
                                 item.UseYn = true;
                                 item.CreateDate = DateTime.Now;
                                 item.MetaAddress = response.Response.Refined.Text;
+                                item.ManualYn = false;
+                                item.Remark = string.Empty;
+
                                 item.Level0 = response.Response.Refined.Structure.Level0;
                                 item.Level1 = response.Response.Refined.Structure.Level1;
                                 item.Level2 = response.Response.Refined.Structure.Level2;
@@ -77,6 +80,8 @@ namespace DataRegister.Services
                                 item.SuccessYn = false;
                                 item.UseYn = false;
                                 item.CreateDate = DateTime.Now;
+                                item.ManualYn = false;
+                                item.Remark = string.Empty;
 
                                 locations.Add($"{item.Div}_{item.AddressText}", item);
 

@@ -21,6 +21,10 @@ public partial class Location
 
     public DateTime CreateDate { get; set; }
 
+    public bool? ManualYn { get; set; }
+
+    public string Remark { get; set; }
+
     public string MetaAddress { get; set; }
 
     public string Level0 { get; set; }
