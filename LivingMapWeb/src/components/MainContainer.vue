@@ -35,7 +35,7 @@ export default {
             console.log(mapDiv);
 
             //new window.naver.maps.Map(mapDiv);
-            new naver.maps.Map(mapDiv);
+            new naver.maps.Map(mapDiv, mapOptions);
         };
 
         // 컴포넌트에서 반환할 것들을 객체로 정의합니다.
