@@ -13,5 +13,6 @@ const NotFound = defineComponent({
 
 const routes = [    
     { path: '/', component: HelloWorld },
+    
     { path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]
