@@ -1,41 +1,36 @@
 <script setup>
-import Header from './Header.vue';
-import MapMain from './MapMain.vue';
+import { ref, onMounted } from 'vue';
+import LeftSideNav from './LeftSideNav.vue';
+
+//const currentPath = ref($route.path);
+
+//console.log(currentPath);
+
 </script>
 
 <template>
-    <Header />
-
     <div id="layoutSidenav">
-        <div id="layoutSidenav_nav">
-            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
-                <div class="sb-sidenav-menu">
-                    <div class="nav">
-                        <div class="sb-sidenav-menu-heading">지도 구분</div>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>
-                            의류수거함
-                        </a>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-battery-empty"></i></div>
-                            폐건전지
-                        </a>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fa-solid fa-smoking"></i></div>
-                            흡연구역
-                        </a>
-                    </div>
-                </div>
-                <div class="sb-sidenav-footer">
-                    <div class="small">Logged in as:</div>
-                    Start Bootstrap
-                </div>
-            </nav>
-        </div>
+        <LeftSideNav>
+            <div class="nav">
+                <div class="sb-sidenav-menu-heading">지도 구분</div>
+                <a class="nav-link" href="index.html">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-shirt"></i></div>
+                    의류수거함
+                </a>
+                <a class="nav-link" href="index.html">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-battery-empty"></i></div>
+                    폐건전지
+                </a>
+                <a class="nav-link" href="index.html">
+                    <div class="sb-nav-link-icon"><i class="fa-solid fa-smoking"></i></div>
+                    흡연구역
+                </a>
+            </div>
+        </LeftSideNav>
         <div id="layoutSidenav_content"> 
             <main>
                 <div class="containter-fluid-custom main">
-                    <MapMain />
+                    <router-view />
                 </div>
             </main>
             <footer class="py-4 bg-light mt-auto">

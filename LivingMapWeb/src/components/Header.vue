@@ -1,6 +1,15 @@
 <script setup>
+
+const menus = [
+    { key: 'home', value: 'Home', url:'/home', },
+    { key: 'Intro', value: 'Intro', url:'/intro', },
+    { key: 'Hello', value: 'Hello', url:'/hello', },
+]
+
 // click event handler
-const onClick = () => alert('click');
+const onClick = () => {
+    document.body.classList.toggle('sb-sidenav-toggled');
+}
 
 </script>
 
@@ -9,15 +18,14 @@ const onClick = () => alert('click');
         <!-- Navbar Brand-->
         <a class="navbar-brand ps-3" href="index.html">Living Map</a>
         <!-- Sidebar Toggle-->
-        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle"><i
-                class="fas fa-bars" @click.prevent="onClick" ></i></button>
+        <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" @click.prevent="onClick"><i
+                class="fas fa-bars" ></i></button>
+        <!-- <a class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" @click.prevent="onClick"><i
+                class="fas fa-bars"></i></a> -->
         
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="#!" @click="onClick">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#!">Intro</a>
+            <li class="nav-item" v-for="menu_object in menus" :key="menu_object.key" >
+                <router-link :to="menu_object.url" class="nav-link" >{{menu_object.value}}</router-link>
             </li>
         </ul>     
 
