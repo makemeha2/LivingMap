@@ -28,6 +28,7 @@ namespace LivingMapAPI.Controllers
             return locations;
         }
 
+
         //// GET: MapController/Details/5
         //public ActionResult Details(int id)
         //{
