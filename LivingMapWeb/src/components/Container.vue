@@ -1,10 +1,16 @@
-<script setup>
-import { ref, onMounted } from 'vue';
-import LeftSideNav from './LeftSideNav.vue';
+<script>
+import { ref, onMounted, computed } from 'vue';
+import LeftSideNav from './leftsidenav.vue';
 
-//const currentPath = ref($route.path);
-
-//console.log(currentPath);
+export default {
+    name: 'Container',
+    setup(props, { emit }) {
+        
+    },
+    components: {
+        LeftSideNav
+    }
+}
 
 </script>
 
@@ -27,7 +33,8 @@ import LeftSideNav from './LeftSideNav.vue';
                 </a>
             </div>
         </LeftSideNav>
-        <div id="layoutSidenav_content"> 
+
+        <div id="layoutSidenav_content">
             <main>
                 <div class="containter-fluid-custom main">
                     <router-view />

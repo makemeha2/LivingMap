@@ -1,10 +1,14 @@
 <script setup>
 
-const menus = [
-    { key: 'home', value: 'Home', url:'/home', },
-    { key: 'Intro', value: 'Intro', url:'/intro', },
-    { key: 'Hello', value: 'Hello', url:'/hello', },
-]
+import { inject } from 'vue'
+
+const menus = inject('menus')
+
+// const menus = [
+//     { key: 'home', value: 'Home', url:'/home', },
+//     { key: 'Intro', value: 'Intro', url:'/intro', },
+//     { key: 'Hello', value: 'Hello', url:'/hello', },
+// ]
 
 // click event handler
 const onClick = () => {

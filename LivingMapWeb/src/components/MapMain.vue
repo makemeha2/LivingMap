@@ -1,29 +1,60 @@
 <script>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 
 export default {
     setup() {
         // ref를 사용하여 지도를 담을 변수를 생성합니다.
         const mapElement = ref(null);
+        const errorMessage = ref(null);
+        const naverMapService = inject('naverMapService');
+
+        let defaultCoords = { "latitude" : "37.5259136", "longitude" : "126.9858304" };
+
+        const initializeMap = (latitude, longitude) => {
+
+            var mapOptions = {
+                center: new naver.maps.LatLng(latitude, longitude),
+                zoom: 15
+            };
+
+            var map = new naver.maps.Map(`${mapElement.value.id}`, mapOptions);
+
+            // 중요 코드
+            naver.maps.Event.addListener(map, 'click', function(e) {
+                console.log(e.coord);
+            });
+
+            naverMapService.reverseGeocode({
+                coords: mapOptions.center,
+                orders: [
+                    naverMapService.OrderType.ADDR,
+                    naverMapService.OrderType.ROAD_ADDR
+                ].join(',')
+            }, function (status, response) {
+                if (status === naverMapService.Status.ERROR) {
+                    return alert('Something Wrong!');
+                }
+
+                console.log(response.v2.results);
+            });
+        };
 
         onMounted(() => {
 
-            const script = document.createElement('script');
-
-            if (mapElement.value) {
-                mapElement.value.id = 'map';
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        initializeMap(position.coords.latitude, position.coords.longitude);
+                    },
+                    error => {
+                        errorMessage.value = '위치 정보를 가져오는 데 실패했습니다: ' + error.message;
+                        initializeMap(defaultCoords.latitude, defaultCoords.longitude);
+                    }
+                );
+            } else {
+                errorMessage.value = 'Geolocation이 지원되지 않는 브라우저입니다.';
+                initializeMap(defaultCoords.latitude, defaultCoords.longitude);
             }
-
-            script.textContent = `
-            var mapOptions = {
-                center: new naver.maps.LatLng(37.3595704, 127.105399),
-                zoom: 10
-            };
-
-            var map = new naver.maps.Map('${mapElement.value.id}', mapOptions);
-            `;
-            // body에 스크립트 추가
-            document.body.appendChild(script);
         });
 
         // 컴포넌트에서 반환할 것들을 객체로 정의합니다.
