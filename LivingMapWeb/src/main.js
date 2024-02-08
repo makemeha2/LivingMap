@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import { router } from './router/router.js'
+import { createPinia } from 'pinia'
 import './style.css'
 //import './js/scripts.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -18,6 +19,7 @@ import App from './App.vue'
 var naverMapService = naver.maps.Service;
 
 const app = createApp(App);
+app.use(createPinia());
 app.use(router); 
 app.provide('naverMapService', naverMapService);
 app.mount('#app');

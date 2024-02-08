@@ -12,15 +12,15 @@ namespace LivingMapAPI.Services
 
             string div = "";
             // divText 를 통해 div 값 받아오기
-            switch (divText)
+            switch (divText.ToUpper())
             {
-                case "close":
+                case "CLOTHES":
                     div = "DIV01";
                     break;
-                case "battery":
+                case "BATTERY":
                     div = "DIV02";
                     break;
-                case "smoke":
+                case "SMOKE":
                     div = "DIV03";
                     break;
                 default:

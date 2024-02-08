@@ -6,17 +6,18 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute();
 
-const isShowLeft = computed(() => {
-  return route.path === '/' || route.path === '/home' ? true : false;
-});
-
 const menus = [
-    { key: 'home', value: 'Home', url:'/home', },
+    { key: 'home', value: 'Home', url:'/map/clothes',  },
     { key: 'Intro', value: 'Intro', url:'/intro', },
     { key: 'Hello', value: 'Hello', url:'/hello', },
 ]
 
 provide('menus', menus)
+
+
+const isShowLeft = computed(() => {
+  return route.path === '/' || route.path.startsWith('/map/') ? true : false;
+});
 
 </script>
 
