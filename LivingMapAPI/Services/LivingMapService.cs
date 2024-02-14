@@ -33,10 +33,21 @@ namespace LivingMapAPI.Services
                     location.Div == div &&
                     location.Level2 == areaLevel2 && 
                     location.UseYn && 
-                    location.SuccessYn).Select(i => new Coordinate(i.Latitude, i.Longitude)) .ToList();
+                    location.SuccessYn).Select(i => new Coordinate(i.Latitude, i.Longitude)).ToList();
             }
 
             return rtnVal;
+        }
+
+        public Location? GetLocationByCoord(Coordinate coord)
+        {
+            using(var context = new LivingMapContext())
+            {
+                return context.Locations.Where(location =>
+                                   location.Latitude == coord.X &&
+                                                      location.Longitude == coord.Y).FirstOrDefault();
+            }
+            
         }
     }
 }

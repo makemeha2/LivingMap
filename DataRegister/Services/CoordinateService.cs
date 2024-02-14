@@ -46,8 +46,8 @@ namespace DataRegister.Services
                                 Location item = new Location();
                                 item.Div = target.Div;
                                 item.AddressText = target.AddressText;
-                                item.Latitude = Convert.ToDouble(response.Response.Result.Point.X);
-                                item.Longitude = Convert.ToDouble(response.Response.Result.Point.Y);
+                                item.Latitude = Convert.ToDouble(response.Response.Result.Point.Y);
+                                item.Longitude = Convert.ToDouble(response.Response.Result.Point.X);
                                 item.SuccessYn = true;
                                 item.UseYn = true;
                                 item.CreateDate = DateTime.Now;

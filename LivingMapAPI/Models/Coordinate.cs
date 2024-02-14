@@ -2,6 +2,8 @@
 {
     public class Coordinate
     {
+        public Coordinate() { }
+
         public Coordinate(double x, double y) 
         { 
             X = x; 

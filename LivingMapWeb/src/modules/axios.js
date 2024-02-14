@@ -3,14 +3,16 @@ import { ref } from 'vue';
 
 export default function () {
     const commuicating = ref(false)
-    const BASE_URL = 'http://localhost:8081';
+
+    const BASE_URL = 'https://localhost:7141';
+
     const creatURL = (url) => {
         return url.startsWith('http') ? url : BASE_URL + url
     }
 
     const checkResult = (resp, onSuccess, onFailed) => {
         commuicating.value = false
-        if (resp.status === 200 && resp.data.rsp === 'ok') {
+        if (resp.status === 200) {
             if (onSuccess) {
                 onSuccess(resp.data)
             }
