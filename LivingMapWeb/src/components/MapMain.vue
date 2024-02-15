@@ -7,6 +7,7 @@ export default {
     setup(props) {
         let defaultCoords = { "latitude": "37.576651347", "longitude": "126.922727676" };
         let map = ref(null);
+        let infowindow = null;
 
         // ref를 사용하여 지도를 담을 변수를 생성합니다.
         const mapElement = ref(null);
@@ -42,6 +43,9 @@ export default {
             };
 
             map.value = new naver.maps.Map(`${mapElement.value.id}`, mapOptions);
+            map.value.addListener('click', (e) => {
+                infowindow.close()
+            });
 
             naverMapService.reverseGeocode({
                 coords: mapOptions.center,
@@ -94,6 +98,7 @@ export default {
             });
         };
 
+        // 마커 클릭 이벤트
         let onMarkerClick = (e) => {
             let marker = e.overlay;
 
@@ -105,7 +110,7 @@ export default {
             let locationInfo = null;
             axiosGet(`/api/map/coord?x=${marker.position.y}&y=${marker.position.x}`,
                 (response) => {
-                    
+
                     locationInfo = { status: 'ok', message: '', ...response };
                     console.log('success : ', locationInfo);
                     createModal(locationInfo, marker);
@@ -118,55 +123,28 @@ export default {
             );
 
             const createModal = (data, marker) => {
-                let infowindow = new naver.maps.InfoWindow({
-                    /*
+                infowindow = new naver.maps.InfoWindow({
                     content:
-                        [
-                            '<div class="modal-dialog modal-dialog-centered" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">'
-                            , '    <div class="modal-dialog">'
-                            , '        <div class="modal-content">'
-                            , '        <div class="modal-header">'
-                            //, '            <h5 class="modal-title" id="exampleModalLabel">' + data.status == 'ok' ? 'Info' : 'Error' + '</h5>'
-                            , '            <h5 class="modal-title" id="exampleModalLabel">Info</h5>'
-                            , '            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
-                            , '        </div>'
-                            , '        <div class="modal-body">'
-                            //, data.status == 'ok' ? data.metaAddress : '주소를 읽어올 수 없습니다.'
-                            , '주소를 읽어올 수 없습니다.'
-                            , '        </div>'
-                            , '        <div class="modal-footer">'
-                            , '            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>'
-                            , '            <button type="button" class="btn btn-primary">신고하기</button>'
-                            , '        </div>'
-                            , '        </div>'
-                            , '    </div>'
-                            , '</div>'
-                        ].join(''),
-                        */
-
-                        
-                        
-                        content: 
                         [
                             '<div class="iw_inner">',
                             '   <h3>' + (data.status == 'ok' ? 'Info' : 'Error') + '</h3>',
-                            '   <p>'+ (data.status == 'ok' ? data.metaAddress : '주소를 읽어올 수 없습니다.') + '<br />',
-                            '   <b>'+ data.detail +'</b><br />',
+                            '   <p>' + (data.status == 'ok' ? data.metaAddress : '주소를 읽어올 수 없습니다.') + '<br />',
+                            '   <b>' + data.detail + '</b><br />',
                             '   <div class="buttons">',
-                            '       <button class="save">저장</button>',
-                            //'       <button class="cancel">취소</button>',
+                            '   <span class="message">이 정보가 잘못 되었나요?</span>',
+                            '       <button class="save" onClick="alert('+ data.addressText +')" >신고하기</button>',
                             '   </div>',
                             '   </p>',
                             '</div>'
                         ].join('')
-                        
+
                 });
 
                 if (infowindow.getMap()) {
                     infowindow.close();
                 } else {
                     infowindow.open(map.value, marker);
-                }   
+                }
             }
         }
 

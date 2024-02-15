@@ -16,7 +16,7 @@ namespace DataRegister.Services
     {
         public async static Task Run()
         {
-            using(var context = new LivingMapContext())
+            using(var context = new LivingMapDBContext())
             {
                 var addressTargets = context.ExtractAddresses.ToList();
                 var locations = context.Locations.ToList().ToDictionary(k => $"{k.Div}_{k.AddressText}" , v => v);

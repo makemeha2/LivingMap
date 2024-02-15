@@ -13,7 +13,7 @@ namespace DataRegister.Services
     {
         public static void Run()
         {
-            using (var context = new LivingMapContext())
+            using (var context = new LivingMapDBContext())
             {
                 var targetList = context.AddrExtrInfos.Where(i => !i.IfsuccessYn).Include(p => p.AdmCode).ToList();
 

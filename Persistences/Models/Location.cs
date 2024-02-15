@@ -44,4 +44,6 @@ public partial class Location
     public string Level5 { get; set; }
 
     public string Detail { get; set; }
+
+    public virtual ICollection<Complaint> Complaints { get; set; } = new List<Complaint>();
 }

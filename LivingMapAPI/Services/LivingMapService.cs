@@ -1,4 +1,5 @@
-﻿using LivingMapAPI.Models;
+﻿
+using LivingMapAPI.DTOs;
 using Persistences;
 using Persistences.Models;
 
@@ -27,7 +28,7 @@ namespace LivingMapAPI.Services
                     break;
             }
 
-            using(var context = new LivingMapContext())
+            using(var context = new LivingMapDBContext())
             {
                 rtnVal = context.Locations.Where(location => 
                     location.Div == div &&
@@ -41,13 +42,33 @@ namespace LivingMapAPI.Services
 
         public Location? GetLocationByCoord(Coordinate coord)
         {
-            using(var context = new LivingMapContext())
+            using(var context = new LivingMapDBContext())
             {
                 return context.Locations.Where(location =>
                                    location.Latitude == coord.X &&
                                                       location.Longitude == coord.Y).FirstOrDefault();
             }
             
+        }
+
+        public int RegisterCompliant(ComplaintReq complaintReq)
+        {
+                using (var context = new LivingMapDBContext())
+                {
+                    // 사용자가 차단된 사용자인지 여부를 확인하는 로직이 필요함 
+
+                    Complaint complaint = new Complaint();
+                    complaint.Div = complaintReq.Div;
+                    complaint.AddressText = complaintReq.AddressText;
+                    complaint.UserInfo = complaintReq.UserInfo;
+                    complaint.UserType = complaintReq.UserType;
+                    complaint.ComplaintType = complaintReq.ComplaintType;
+                    complaint.Description = complaintReq.Description;
+                    complaint.CreateDate = DateOnly.FromDateTime(DateTime.Now);
+
+                    context.Complaints.Add(complaint);
+                    return context.SaveChanges();
+                }
         }
     }
 }

@@ -11280,6 +11280,12 @@ body {
   padding-bottom: 10px;
   /*justify-content: space-between;*/
 }
+
+.iw_inner .message {
+  font-size: 13px;
+  color: #0a53be;
+}
+
 .iw_inner .buttons button {
   padding: 5px 10px;
   margin-left: 5px;
@@ -11290,6 +11296,7 @@ body {
 .iw_inner .buttons button.save {
   background-color: #0dcaf0;
   color: white;
+  font-size: 15px;
 }
 .iw_inner .buttons button.cancel {
   background-color: #f44336;

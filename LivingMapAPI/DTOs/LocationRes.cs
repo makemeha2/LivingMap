@@ -1,6 +1,6 @@
 ﻿using Persistences.Models;
 
-namespace LivingMapAPI.Models
+namespace LivingMapAPI.DTOs
 {
     public class LocationRes
     {

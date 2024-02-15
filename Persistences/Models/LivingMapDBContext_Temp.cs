@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Persistences.Models;
 
-public partial class LivingMapDBContext : DbContext
+public partial class LivingMapDBContext_Temp : DbContext
 {
-    public LivingMapDBContext(DbContextOptions<LivingMapDBContext> options)
+    public LivingMapDBContext_Temp(DbContextOptions<LivingMapDBContext_Temp> options)
         : base(options)
     {
     }
@@ -17,7 +17,21 @@ public partial class LivingMapDBContext : DbContext
 
     public virtual DbSet<AdmCode> AdmCodes { get; set; }
 
+    public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
+
+    public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; }
+
+    public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<AspNetUserClaim> AspNetUserClaims { get; set; }
+
+    public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; }
+
+    public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; }
+
     public virtual DbSet<CommonCode> CommonCodes { get; set; }
+
+    public virtual DbSet<Complaint> Complaints { get; set; }
 
     public virtual DbSet<ExtractAddress> ExtractAddresses { get; set; }
 
@@ -79,11 +93,119 @@ public partial class LivingMapDBContext : DbContext
                 .IsUnicode(false);
         });
 
+        modelBuilder.Entity<AspNetRole>(entity =>
+        {
+            entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedName] IS NOT NULL)");
+
+            entity.Property(e => e.Name).HasMaxLength(256);
+            entity.Property(e => e.NormalizedName).HasMaxLength(256);
+        });
+
+        modelBuilder.Entity<AspNetRoleClaim>(entity =>
+        {
+            entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
+
+            entity.Property(e => e.RoleId).IsRequired();
+
+            entity.HasOne(d => d.Role).WithMany(p => p.AspNetRoleClaims).HasForeignKey(d => d.RoleId);
+        });
+
+        modelBuilder.Entity<AspNetUser>(entity =>
+        {
+            entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
+
+            entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
+                .IsUnique()
+                .HasFilter("([NormalizedUserName] IS NOT NULL)");
+
+            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
+            entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
+            entity.Property(e => e.UserName).HasMaxLength(256);
+
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AspNetUserRole",
+                    r => r.HasOne<AspNetRole>().WithMany().HasForeignKey("RoleId"),
+                    l => l.HasOne<AspNetUser>().WithMany().HasForeignKey("UserId"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId");
+                        j.ToTable("AspNetUserRoles");
+                        j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
+                    });
+        });
+
+        modelBuilder.Entity<AspNetUserClaim>(entity =>
+        {
+            entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
+
+            entity.Property(e => e.UserId).IsRequired();
+
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserClaims).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<AspNetUserLogin>(entity =>
+        {
+            entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
+
+            entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
+
+            entity.Property(e => e.LoginProvider).HasMaxLength(128);
+            entity.Property(e => e.ProviderKey).HasMaxLength(128);
+            entity.Property(e => e.UserId).IsRequired();
+
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserLogins).HasForeignKey(d => d.UserId);
+        });
+
+        modelBuilder.Entity<AspNetUserToken>(entity =>
+        {
+            entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
+
+            entity.Property(e => e.LoginProvider).HasMaxLength(128);
+            entity.Property(e => e.Name).HasMaxLength(128);
+
+            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserTokens).HasForeignKey(d => d.UserId);
+        });
+
         modelBuilder.Entity<CommonCode>(entity =>
         {
             entity.HasKey(e => new { e.CodeGroup, e.Code });
 
             entity.ToTable("CommonCode");
+        });
+
+        modelBuilder.Entity<Complaint>(entity =>
+        {
+            entity.HasKey(e => new { e.Idx, e.Div, e.AddressText });
+
+            entity.ToTable("Complaint");
+
+            entity.Property(e => e.Idx).ValueGeneratedOnAdd();
+            entity.Property(e => e.Div)
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.AddressText).HasMaxLength(300);
+            entity.Property(e => e.ComplaintType)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+            entity.Property(e => e.Description).HasMaxLength(500);
+            entity.Property(e => e.UserInfo)
+                .IsRequired()
+                .HasMaxLength(100)
+                .IsUnicode(false);
+            entity.Property(e => e.UserType)
+                .IsRequired()
+                .HasMaxLength(10)
+                .IsUnicode(false);
+
+            entity.HasOne(d => d.Location).WithMany(p => p.Complaints)
+                .HasForeignKey(d => new { d.Div, d.AddressText })
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Complaint_Location");
         });
 
         modelBuilder.Entity<ExtractAddress>(entity =>

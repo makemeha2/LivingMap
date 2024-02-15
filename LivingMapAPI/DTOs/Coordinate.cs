@@ -1,4 +1,4 @@
-﻿namespace LivingMapAPI.Models
+﻿namespace LivingMapAPI.DTOs
 {
     public class Coordinate
     {
