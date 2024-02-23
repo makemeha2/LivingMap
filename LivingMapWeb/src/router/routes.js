@@ -4,6 +4,8 @@ import Intro from '../components/Intro.vue'
 import HelloWorld from '../components/HelloWorld.vue'
 import MapMain from '../components/MapMain.vue'
 import LeftSideNav from '../components/LeftSideNav.vue'
+import LoginTest from '../components/LoginTest.vue'
+import Login from '../components/Login.vue'
 import { defineComponent } from 'vue'
 
 const NotFound = defineComponent({
@@ -25,6 +27,8 @@ const routes = [
             secondComponent: LeftSideNav
         }
     },
+    { path: '/loginTest', name: 'LoginTest', component: LoginTest },
+    { path: '/login', name: 'Login', component: Login },
     { path: '/:catchAll(.*)', name: 'NotFound', component: NotFound },
     //{ path: '/:pathMatch(.*)*', name: 'NotFound', component: NotFound }
 ]

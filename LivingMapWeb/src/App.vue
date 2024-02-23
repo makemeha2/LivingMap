@@ -1,5 +1,5 @@
 <script setup>
-import { computed, provide } from 'vue';
+import { computed, provide, onBeforeMount } from 'vue';
 import Container from './components/Container.vue'
 import Header from './components/Header.vue'
 import { useRoute } from 'vue-router'
@@ -10,13 +10,20 @@ const menus = [
     { key: 'home', value: 'Home', url:'/map/clothes',  },
     { key: 'Intro', value: 'Intro', url:'/intro', },
     { key: 'Hello', value: 'Hello', url:'/hello', },
+    { key: 'Login', value: 'Login', url:'/login', },
 ]
 
 provide('menus', menus)
 
-
 const isShowLeft = computed(() => {
   return route.path === '/' || route.path.startsWith('/map/') ? true : false;
+});
+
+onBeforeMount(() => {
+  
+
+
+
 });
 
 </script>

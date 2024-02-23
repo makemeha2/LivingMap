@@ -132,7 +132,7 @@ export default {
                             '   <b>' + data.detail + '</b><br />',
                             '   <div class="buttons">',
                             '   <span class="message">이 정보가 잘못 되었나요?</span>',
-                            '       <button class="save" onClick="alert('+ data.addressText +')" >신고하기</button>',
+                            '       <button class="save" onClick="tellMe('+ data.addressText +')" >신고하기</button>',
                             '   </div>',
                             '   </p>',
                             '</div>'

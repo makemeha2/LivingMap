@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import { router } from './router/router.js'
 import { createPinia } from 'pinia'
+import vue3GoogleLogin from 'vue3-google-login'
 import './style.css'
 //import './js/scripts.js'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -21,5 +22,6 @@ var naverMapService = naver.maps.Service;
 const app = createApp(App);
 app.use(createPinia());
 app.use(router); 
+app.use(vue3GoogleLogin, { clientId: '804003243997-pp5313n2tiju5bgkracp3ua5b3s8fakk.apps.googleusercontent.com' })
 app.provide('naverMapService', naverMapService);
 app.mount('#app');

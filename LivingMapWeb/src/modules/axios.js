@@ -2,6 +2,11 @@ import axios from 'axios';
 import { ref } from 'vue';
 
 export default function () {
+
+    const headersConfig = {
+        'Content-Type': 'application/json'
+    };
+    
     const commuicating = ref(false)
 
     const BASE_URL = 'https://localhost:7141';
@@ -32,14 +37,15 @@ export default function () {
 
     const axiosPost = async (url, data, onSuccess = null, onFailed = null) => {
         commuicating.value = true
-        axios.post(creatURL(url), data).then((resp) => {
+        //console.log(headers);
+        axios.post(creatURL(url), data, { headers: { 'Content-Type': 'application/json' } }).then((resp) => {
             checkResult(resp, onSuccess, onFailed)
         })
     }
 
     const axiosPut = async (url, data, onSuccess = null, onFailed = null) => {
         commuicating.value = true
-        axios.put(creatURL(url), data).then((resp) => {
+        axios.put(creatURL(url), data, { headers: { 'Content-Type': 'application/json' } }).then((resp) => {
             checkResult(resp, onSuccess, onFailed)
         })
     }
